@@ -1,0 +1,21 @@
+{
+    "verbose": true,
+    "restartable": "rs",
+    "delay": 300,
+    "ignore": [
+        ".git",
+        "docs",
+        "dist",
+        "node_modules"
+    ],
+    "watch": [
+        "src"
+    ],
+    "ext": "ts",
+    "env": {
+        "NODE_ENV": "development"
+    },
+    "execMap": {
+        "ts": "node --inspect -r ts-node/register"
+    }
+}
