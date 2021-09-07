@@ -29,6 +29,28 @@ netstat -ano | findstr :9000
 taskkill /pid 1000 /f
 ```
 
+## Heroku
+
+```bash
+# deploy
+git push heroku heroku:master
+```
+
+```bash
+# open app
+heroku open
+```
+
+```bash
+# print out app logs
+heroku logs --tail
+```
+
+```bash
+# open app console
+heroku run bash
+```
+
 ## License
 
 Please see [LICENSE](./LICENSE) file.
