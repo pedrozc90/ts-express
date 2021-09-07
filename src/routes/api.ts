@@ -22,4 +22,21 @@ router.post("/login", (request: Request, response: Response, next: NextFunction)
     return response.status(200).json({ token: `${username}:${password}` });
 });
 
+router.put("/:n", (request: Request, response: Response, next: NextFunction) => {
+    let n: number = parseInt(request.params.n, 10);
+
+    if (isNaN(n)) {
+        return response.status(400).json({ message: `param ${request.params.n} must be a number.` });
+    } else if (n > 5_000_000_000) {
+        n = 5_000_000_000;
+    }
+
+    let count = 0;
+    for (let i = 0; i <= n; i++) {
+        count += i;
+    }
+
+    response.json({ count });
+});
+
 export default router;

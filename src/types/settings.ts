@@ -1,5 +1,6 @@
 export interface ServerSettings {
     __dirname: string,
+    name: string,
     version: string,
     env: string | "development" | "production" | "test" | "stage",
     production: boolean,

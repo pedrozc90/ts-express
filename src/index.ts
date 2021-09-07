@@ -4,13 +4,12 @@ import app from "./app";
 
 const env: string = app.get("env");
 const port: number = app.get("port");
-const hostname: string = app.get("hostname");
 const version: string = app.get("version");
 
 /**
  * Start Express Server.
  */
-const server: Server = app.listen(port, hostname);
+const server: Server = app.listen(port);
 
 server.on("listening", () => {
     if (!server.listening) return;
