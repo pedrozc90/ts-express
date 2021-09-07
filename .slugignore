@@ -1,0 +1,31 @@
+# dependecies
+node_modules
+
+# build
+dist
+
+# folders
+docs
+
+# npm packages
+package-lock.json
+
+# environment files
+.env
+.env.dev
+.env.development
+.env.prod
+.env.production
+.example.env
+LICENSE
+nodemon.json
+README.md
+
+# docker
+.dockerignore
+docker-compose.yml
+Dockerfile
+
+# git files
+.gitignore
+.gitattributes
