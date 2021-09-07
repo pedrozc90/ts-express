@@ -1,6 +1,6 @@
 {
     "name": "ts-express",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "express + typescript restful api boilerplate",
     "main": "dist/index.js",
     "scripts": {
