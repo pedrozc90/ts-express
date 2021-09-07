@@ -19,10 +19,11 @@ if (settings.env === "development") {
 }
 
 // application settings
+app.set("name", settings.name);
+app.set("version", settings.version);
+
 app.set("env", settings.env);
 app.set("port", settings.http.port);
-app.set("host", settings.http.host);
-app.set("version", settings.version);
 
 // setup static files
 app.use("/static", express.static(path.join(__dirname, "public"), { maxAge: 31557600000 }));

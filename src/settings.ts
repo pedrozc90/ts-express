@@ -4,9 +4,6 @@ import dotenv from "dotenv";
 
 import { ServerSettings } from "./types";
 
-// import * as pkg from "../package.json";
-
-// const version: string = pkg.version || "none";
 const env: string = process.env.NODE_ENV || "development";
 const production: boolean = (env === "production");
 const development: boolean = !production;
@@ -21,13 +18,13 @@ if (fs.existsSync(filepath)) {
 
 const settings: ServerSettings = {
     __dirname: __dirname,
-    version: "none",
+    name: process.env.APP_NAME || "default",
+    version: process.env.APP_VERSION || "none",
     env,
     production,
     development,
     http: {
-        host: process.env.HTTP_HOST,
-        port: Number(process.env.HTTP_PORT) || 9000,
+        port: Number(process.env.PORT) || 9000,
         https: false
     }
 };
