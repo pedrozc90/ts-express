@@ -1,0 +1,32 @@
+# references
+#   docker network: https://docs.docker.com/engine/reference/commandline/network_create/
+#   docker volume: https://docs.docker.com/engine/reference/commandline/volume_create/
+
+version: "3.7"
+
+services:
+
+    server:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: express-ts:1.0.0
+        container_name: express-ts
+        restart: unless-stopped
+        expose:
+            - 9000
+        environment:
+            NODE_ENV: "production"
+            HTTP_HOST: "localhost"
+            HTTP_PORT: 9000
+            JWT_SECRET_KEY: "production"
+            JWT_EXPIRATION: "12h"
+        ports:
+            - "9000:9000"
+        networks:
+            - backend
+
+networks:
+    backend:
+        name: backend
+        driver: bridge
