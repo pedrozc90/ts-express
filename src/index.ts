@@ -52,19 +52,4 @@ server.on("error", (error: Error | any) => {
     }
 });
 
-// function onProcessEvent() {
-//     return function(signal: any): void {
-//         logger.error(`${signal} received, shutting down process...`);
-//         if (server.listening) {
-//             server.close(() => {
-//                 logger.error("Shutdown complete.");
-//             });
-//         }
-//         process.exit(0);
-//     }
-// }
-
-// process.on("SIGINT", onProcessEvent);
-// process.on("SIGTERM", onProcessEvent);
-
 export default server;

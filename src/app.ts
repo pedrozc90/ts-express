@@ -21,7 +21,6 @@ if (settings.env === "development") {
 // application settings
 app.set("name", settings.name);
 app.set("version", settings.version);
-
 app.set("env", settings.env);
 app.set("port", settings.http.port);
 
@@ -57,17 +56,19 @@ app.use((request: Request, response: Response, next: NextFunction) => {
 });
 
 // catch 404 and forward to error handler
-app.use((error: any, request: Request, response: Response, next: NextFunction) => {
-    error.status = 404;
-    next(error);
-});
+app.use(
+    (error: any, request: Request, response: Response, next: NextFunction) => {
+        error.status = 404;
+        next(error);
+    },
+);
 
 // API Routes
 app.use("/", BaseRouter.default);
 app.use("/api", ApiRouter.default);
 
-app.use("*", (request: Request, response: Response, next: NextFunction) => {
+app.use("*", (request: Request, response: Response) => {
     return response.status(404).json({ message: "page not found." });
-})
+});
 
 export default app;
