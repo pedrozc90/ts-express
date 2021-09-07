@@ -30,3 +30,6 @@ Dockerfile
 .git
 .gitignore
 .gitattributes
+
+# IDE's files
+.vscode
