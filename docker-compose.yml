@@ -10,15 +10,16 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        image: express-ts:1.0.0
-        container_name: express-ts
+        image: ts-express:1.0.1
+        container_name: ts-express
         restart: unless-stopped
         expose:
             - 9000
         environment:
             NODE_ENV: "production"
-            HTTP_HOST: "localhost"
-            HTTP_PORT: 9000
+            APP_NAME: "ts-express"
+            APP_VERSION: "1.0.1"
+            PORT: 9000
             JWT_SECRET_KEY: "production"
             JWT_EXPIRATION: "12h"
         ports:

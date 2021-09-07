@@ -38,8 +38,9 @@ COPY --from=builder /usr/src/app/dist ./dist/
 
 # define enviroment variables
 ENV NODE_ENV="development"
-ENV HTTP_HOST="localhost"
-ENV HTTP_PORT=9000
+ENV APP_NAME="ts-express"
+ENV APP_VERSION="1.0.1"
+ENV PORT=9000
 ENV JWT_SECRET="development"
 ENV JWT_EXPIRATION="24h"
 
