@@ -29,3 +29,6 @@ Dockerfile
 # git files
 .gitignore
 .gitattributes
+
+# IDE's files
+.vscode
