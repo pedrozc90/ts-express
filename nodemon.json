@@ -13,7 +13,8 @@
     ],
     "ext": "ts",
     "env": {
-        "NODE_ENV": "development"
+        "NODE_ENV": "development",
+        "CONCURRENCY": 8
     },
     "execMap": {
         "ts": "node --inspect -r ts-node/register"

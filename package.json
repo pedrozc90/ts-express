@@ -8,7 +8,8 @@
         "build": "tsc --project tsconfig.json",
         "postinstall": "npm run build",
         "start:dev": "nodemon src/index.ts",
-        "start": "node dist/index.js"
+        "start": "node dist/index.js",
+        "cluster": "nodemon src/cluster.ts"
     },
     "repository": {
         "type": "git",
