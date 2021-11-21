@@ -10,6 +10,9 @@ const version: string = app.get("version");
  * Start Express Server.
  */
 const server: Server = app.listen(port);
+// server.keepAliveTimeout = 15000;
+// server.headersTimeout = 15000;
+// server.requestTimeout = 15000;
 
 server.on("listening", () => {
     if (!server.listening) return;
