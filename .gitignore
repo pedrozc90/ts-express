@@ -4,9 +4,6 @@ node_modules
 # output
 dist
 
-# npm packages
-package-lock.json
-
 # environment files
 .env
 .env.prod

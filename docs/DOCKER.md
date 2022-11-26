@@ -4,7 +4,7 @@
 
 ```bash
 # create image using Dockerfile
-docker build --tag express-ts --file Dockerfile .
+docker build --tag ts-express --file Dockerfile .
 
 # create image, container and run it with docker-composer
 docker-compose up --build --detach

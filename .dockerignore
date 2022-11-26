@@ -8,7 +8,7 @@ dist
 docs
 
 # npm packages
-package-lock.json
+# package-lock.json
 
 # environment files
 .env
