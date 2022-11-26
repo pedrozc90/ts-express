@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response, Router } from "express";
+import { delay } from "../utils";
 
 const router: Router = Router();
 
@@ -37,6 +38,19 @@ router.put("/:n", (request: Request, response: Response, next: NextFunction) => 
     }
 
     response.json({ count });
+});
+
+router.get("/timeout/:ms", async (request: Request, response: Response, next: NextFunction) => {
+    let ms: number = Number(request.params.ms) || 5000;
+    await delay(ms);
+    response.json({ message: "sanity check" });
+});
+
+router.get("/redirect", async (request: Request, response: Response, next: NextFunction) => {
+    // let ms: number = Number(request.params.ms) || 5000;
+    // await delay(ms);
+    // response.json({ message: "sanity check" });
+    response.redirect("https://www.asurascans.com/manga/1660333069-reaper-of-the-drifting-moon/");
 });
 
 export default router;

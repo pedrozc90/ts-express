@@ -1,50 +1,58 @@
 # stage 1: compile
-FROM node:14.17.6-alpine AS builder
+FROM node:18.12-alpine AS builder
 
 # update alpine packages
 RUN apk update
 
+# update npm
+RUN npm update --global npm
+
 # create application directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # bundle source code (.dockerignore will take care of unwanted files)
 COPY . .
 
-# install packages
-RUN npm install
+# install npm dependencies
+RUN npm ci
 
-# transpile typescript
+# build project + transpile typescript
 RUN npm run build
 
-# stage 2: transpiler typescript to javascript
-FROM node:14.17.6-alpine
+# stage 2
+FROM node:18.12-alpine AS stage
+
+# build arguments
+ARG PORT=4000
+
+# define enviroment variables
+ENV PORT=$PORT
+ENV NODE_ENV="production"
+ENV APP_NAME="ts-express"
+ENV APP_VERSION="1.0.1"
+
+ENV JWT_SECRET="development"
+ENV JWT_EXPIRATION="24h"
 
 # update alpine packages
 RUN apk update
 
+# update npm
+RUN npm update --global npm
+
 # create application directory
-WORKDIR /usr/src/app
-
-# create new dist directory
-RUN mkdir dist
-
-COPY package.json .
-
-# install only production dependencies
-RUN npm install --only=production
+WORKDIR /app
 
 # copy files from the first stage into seconds stage workdir
-COPY --from=builder /usr/src/app/dist ./dist/
+COPY --from=builder "/app/dist" "/app/dist"
+COPY --from=builder "/app/package*.json" "/app/"
 
-# define enviroment variables
-ENV NODE_ENV="development"
-ENV APP_NAME="ts-express"
-ENV APP_VERSION="1.0.1"
-ENV PORT=9000
-ENV JWT_SECRET="development"
-ENV JWT_EXPIRATION="24h"
+# install only production dependencies
+RUN npm install
 
-EXPOSE 9000
+RUN ls -al
+
+EXPOSE $PORT
 
 # rum server
-CMD [ "node", "dist/index.js" ]
+CMD [ "node", "/app/dist/index.js" ]
