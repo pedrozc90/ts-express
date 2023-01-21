@@ -29,6 +29,11 @@ netstat -ano | findstr :9000
 taskkill /pid 1000 /f
 ```
 
+```bash
+# update package.json
+npx npm-check-updates --target latest --upgrade
+```
+
 ## License
 
 Please see [LICENSE](./LICENSE) file.
