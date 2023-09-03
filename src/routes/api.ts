@@ -53,4 +53,8 @@ router.get("/redirect", async (request: Request, response: Response, next: NextF
     response.redirect("https://www.asurascans.com/manga/1660333069-reaper-of-the-drifting-moon/");
 });
 
+router.get("/bad", async (request: Request, response: Response, next: NextFunction) => {
+    response.status(400).json({ message: "sanity check" });
+});
+
 export default router;
