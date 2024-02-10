@@ -10,9 +10,10 @@ router.get("/ping", (request: Request, response: Response, next: NextFunction) =
     const env: string = request.app.get("env");
     const name: string = request.app.get("name");
     const version: string = request.app.get("version");
-    const timestamp = new Date().toISOString();
+    const timestamp = new Date();
     return response.json({
         env,
+        timezone: process.env.TZ,
         timestamp,
         app: {
             name,

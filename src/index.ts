@@ -1,58 +1,68 @@
 import { Server } from "http";
 
 import app from "./app";
+import db from "./data-source";
 
 const env: string = app.get("env");
 const port: number = app.get("port");
 const version: string = app.get("version");
 
+
 /**
  * Start Express Server.
- */
+*/
 const server: Server = app.listen(port);
 // server.keepAliveTimeout = 15000;
 // server.headersTimeout = 15000;
 // server.requestTimeout = 15000;
 
-server.on("listening", () => {
-    if (!server.listening) return;
+db.initialize()
+    .then((ds) => {
+        console.log("Data source initialized.");
 
-    const addr = server.address();
+        server.on("listening", () => {
+            if (!server.listening) return;
 
-    console.log(addr);
+            const addr = server.address();
 
-    const bind = (addr) ? (typeof addr === "string" ? `Pipe ${addr}` : `http://${addr.address}:${addr.port}`) : null;
+            console.log(addr);
 
-    console.log("----------------------------------------------------------------------");
-    console.log(`Application running on ${bind}`);
-    console.log("To shut it down, press CTRL + C at any time.");
-    console.log("----------------------------------------------------------------------");
-    console.log(`Process PID: ${process.pid}`);
-    console.log(`Environment: ${env}`);
-    console.log(`Version    : ${version}`);
-    console.log("----------------------------------------------------------------------");
-});
+            const bind = (addr) ? (typeof addr === "string" ? `Pipe ${addr}` : `http://${addr.address}:${addr.port}`) : null;
 
-server.on("error", (error: Error | any) => {
-    if (error.syscall !== "listen") {
-        throw error;
-    }
+            console.log("----------------------------------------------------------------------");
+            console.log(`Application running on ${bind}`);
+            console.log("To shut it down, press CTRL + C at any time.");
+            console.log("----------------------------------------------------------------------");
+            console.log(`Process PID: ${process.pid}`);
+            console.log(`Environment: ${env}`);
+            console.log(`Version    : ${version}`);
+            console.log("----------------------------------------------------------------------");
+        });
 
-    const bind: string = (typeof port === "string") ? "Pipe " + port : "Port " + port;
+        server.on("error", (error: Error | any) => {
+            if (error.syscall !== "listen") {
+                throw error;
+            }
 
-    // handle specific listen errors with friendly messages
-    switch (error.code) {
-        case "EACCES":
-            console.error(bind + " requires elevated privileges");
-            process.exit(1);
-            // break;
-        case "EADDRINUSE":
-            console.error(bind + " is already in use");
-            process.exit(1);
-            // break;
-        default:
-            throw error;
-    }
-});
+            const bind: string = (typeof port === "string") ? "Pipe " + port : "Port " + port;
+
+            // handle specific listen errors with friendly messages
+            switch (error.code) {
+                case "EACCES":
+                    console.error(bind + " requires elevated privileges");
+                    process.exit(1);
+                // break;
+                case "EADDRINUSE":
+                    console.error(bind + " is already in use");
+                    process.exit(1);
+                // break;
+                default:
+                    throw error;
+            }
+        });
+    })
+    .catch((err) => {
+        console.error("Failed to initialize data source. Reason:", err);
+    });
 
 export default server;

@@ -6,7 +6,7 @@ import cors from "cors";
 import helmet from "helmet";
 import methodOverride from "method-override";
 
-import { BaseRouter, ApiRouter } from "./routes";
+import { BaseRouter, ApiRouter, FileStorageRouter } from "./routes";
 import cookieParser from "cookie-parser";
 import settings from "./settings";
 import morgan from "morgan";
@@ -66,6 +66,7 @@ app.use(
 // API Routes
 app.use("/", BaseRouter.default);
 app.use("/api", ApiRouter.default);
+app.use("/api/fs", FileStorageRouter.default);
 
 app.use("*", (request: Request, response: Response) => {
     return response.status(404).json({ message: "page not found." });

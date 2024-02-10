@@ -1,3 +1,4 @@
+
 import { NextFunction, Request, Response, Router } from "express";
 import { delay } from "../utils";
 
@@ -14,7 +15,7 @@ router.post("/login", (request: Request, response: Response, next: NextFunction)
     if (!username) {
         return response.status(400).json({ message: "username is missing." });
     }
-    
+
     const password = request.body.password;
     if (!password) {
         return response.status(400).json({ message: "password is missing." });

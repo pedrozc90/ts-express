@@ -34,6 +34,13 @@ taskkill /pid 1000 /f
 npx npm-check-updates --target latest --upgrade
 ```
 
+### TypeORM
+
+```bash
+# create a new migration file called 'src/migrations/<timestamp>-create-file-storage.ts'
+npx typeorm migration:create src/migrations/create-file-storage
+```
+
 ## License
 
 Please see [LICENSE](./LICENSE) file.
