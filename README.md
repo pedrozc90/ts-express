@@ -2,7 +2,7 @@
 
 express + typescript restful api boilerplate
 
-> **Important:** Node.js &ge; 14.17, Express &ge; 4.0, TypeScript &ge; 4.4.2
+> **Important:** Node.js &ge; **20.16** Express &ge; **4.18**, TypeScript &ge; **5.3.3**
 
 ## Commands
 
