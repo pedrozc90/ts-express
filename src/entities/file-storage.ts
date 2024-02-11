@@ -34,13 +34,22 @@ export class FileStorage {
     @BeforeInsert()
     public onBeforeInsert(): void {
         if (this.filename) {
-            this.extension = path.extname(this.filename);
+            this.extension = path.extname(this.filename).substring(1);
         }
         if (this.content) {
             const hash = crypto.createHash("shake256");
             hash.update(this.content);
             this.hash = hash.digest("hex");
         }
+    }
+
+    public static create(file: Express.Multer.File): FileStorage {
+        const fs = new FileStorage();
+        fs.filename = file.originalname;
+        fs.contentType = file.mimetype
+        fs.length = file.size;
+        fs.content = file.buffer;
+        return fs;
     }
 
 }

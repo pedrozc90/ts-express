@@ -1,8 +1,9 @@
-import { Express, NextFunction, Request, Response, Router } from "express";
-import multer, { Multer } from "multer";
+import { NextFunction, Request, Response, Router } from "express";
+import multer from "multer";
 
 import { fileStorageRepository } from "../repositories";
 import { FileStorage } from "../entities";
+import db from "../data-source";
 
 const storage = multer.memoryStorage();
 const upload = multer({ dest: "./tmp", storage });
@@ -19,7 +20,7 @@ router.post("/", upload.single("file"), async (request: Request, response: Respo
     if (!request.file) {
         return response.status(400).json({ message: "file not found." });
     }
-    const fs = await fileStorageRepository.create(request.file);
+    const fs = FileStorage.create(request.file);
     const { content, ...serialize } = fs;
     return response.status(201).json(serialize);
 });
@@ -31,37 +32,54 @@ const multer_middleware = upload.fields([
 ]);
 
 router.post("/multiples", multer_middleware, async (request: Request, response: Response, next: NextFunction) => {
-    const files = request.files;
+    const files = request.files as { [filename: string]: Express.Multer.File[] | undefined } | undefined;
     if (!files) {
         return response.status(400).json({ message: "Files not found." });
     }
 
-    const result = [];
-
-    const ofx_files = (files as any)["ofx_file"];
-    if (ofx_files?.length) {
-        const ofx_file = ofx_files[0];
-        const ofx_fs = await fileStorageRepository.create(ofx_file);
-        const { content, ...serialize } = ofx_fs;
-        result.push(serialize);
+    const ofx_file = (files["ofx_file"]?.length) ? files["ofx_file"][0] : null;
+    if (!ofx_file) {
+        return response.status(400).json({ message: "'ofx_file' not found." });
     }
 
-    const pdf_files = (files as any)["pdf_file"];
-    if (pdf_files?.length) {
-        const pdf_file = pdf_files[0];
-        const pdf_fs = await fileStorageRepository.create(pdf_file);
-        const { content, ...serialize } = pdf_fs;
-        result.push(serialize);
+    const pdf_file = (files["pdf_file"]?.length) ? files["pdf_file"][0] : null;
+    if (!pdf_file) {
+        return response.status(400).json({ message: "'pdf_file' not found." });
     }
 
-    const csv_files = (files as any)["csv_file"];
-    if (csv_files?.length) {
-        const csv_file = csv_files[0];
-        const csv_fs = await fileStorageRepository.create(csv_file);
-        const { content, ...serialize } = csv_fs;
-        result.push(serialize);
+    const csv_file = (files["csv_file"]?.length) ? files["csv_file"][0] : null;
+    if (!csv_file) {
+        return response.status(400).json({ message: "'csv_file' not found." });
     }
-    return response.status(200).json({ result });
+
+    const qr = db.createQueryRunner();
+
+    await qr.connect();
+
+    await qr.startTransaction();
+
+    try {
+        const ofx_obj = FileStorage.create(ofx_file);
+        const ofx_fs = await qr.manager.save(FileStorage, ofx_obj);
+        const { content: ofx_content, ...ofx_serialize } = ofx_fs;
+
+        const pdf_obj = FileStorage.create(pdf_file);
+        const pdf_fs = await qr.manager.save(FileStorage, pdf_obj);
+        const { content: pdf_content, ...pdf_serialize } = pdf_fs;
+
+        const csv_obj = FileStorage.create(csv_file);
+        const csv_fs = await qr.manager.save(FileStorage, csv_obj);
+        const { content: csv_content, ...csv_serialize } = csv_fs;
+        
+        await qr.commitTransaction();
+
+        response.status(200).json({ result: [ ofx_serialize, pdf_serialize, csv_serialize ] });
+    } catch (e) {
+        await qr.rollbackTransaction();
+        response.status(400).json({ message: 'Failed to save files.', stack_error: e });
+    } finally {
+        await qr.release();
+    }
 });
 
 router.get("/:id", async (request: Request, response: Response, next: NextFunction) => {

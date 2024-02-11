@@ -26,15 +26,6 @@ export class FileStorageRepository extends BaseRepository<FileStorage> {
         return this.instance;
     }
 
-    public async create(file: Express.Multer.File): Promise<FileStorage> {
-        const fs = new FileStorage();
-        fs.filename = file.originalname;
-        fs.contentType = file.mimetype
-        fs.length = file.size;
-        fs.content = file.buffer;
-        return fileStorageRepository.insert(fs);
-    }
-
     public async getById(id: number): Promise<FileStorage | null> {
         return this.repo.findOne({
             where: { id },
