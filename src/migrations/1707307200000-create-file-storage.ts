@@ -15,8 +15,8 @@ export class CreateFileStorage1707307200000 implements MigrationInterface {
             CREATE TABLE IF NOT EXISTS file_storage (
                 id              BIGINT                               DEFAULT nextval('public.file_storage_id_seq'),
                 
-                inserted_at     TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT current_timestamp,
-                updated_at      TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT current_timestamp,
+                inserted_at     TIMESTAMP WITH TIME ZONE    NOT NULL DEFAULT current_timestamp,
+                updated_at      TIMESTAMP WITH TIME ZONE    NOT NULL DEFAULT current_timestamp,
                 version         INTEGER                     NOT NULL DEFAULT 0,
                 
                 "hash"          VARCHAR(64)                 NOT NULL,
