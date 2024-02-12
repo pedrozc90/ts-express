@@ -1,2 +1,2 @@
-export * as BaseRouter from "./home";
-export * as ApiRouter from "./api";
+export * from "./file-storage.router";
+export * from "./root.router";

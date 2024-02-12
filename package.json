@@ -1,6 +1,6 @@
 {
     "name": "ts-express",
-    "version": "1.0.1",
+    "version": "0.1.0",
     "description": "express + typescript restful api boilerplate",
     "main": "dist/index.js",
     "scripts": {
@@ -26,15 +26,17 @@
     "author": "pedrozc90 <pedrozc90@gmail.com>",
     "license": "MIT",
     "dependencies": {
+        "@types/multer": "^1.4.11",
         "compression": "^1.7.4",
         "cookie-parser": "^1.4.6",
         "cors": "^2.8.5",
-        "dotenv": "^16.4.1",
+        "dotenv": "^16.4.2",
         "express": "^4.18.2",
         "helmet": "^7.1.0",
         "jsonwebtoken": "^9.0.2",
         "method-override": "^3.0.0",
         "morgan": "^1.10.0",
+        "multer": "^1.4.5-lts.1",
         "reflect-metadata": "^0.2.1",
         "winston": "^3.11.0"
     },
@@ -52,7 +54,7 @@
         "typescript": "^5.3.3"
     },
     "engines": {
-        "node": ">=20.10.0",
-        "npm": ">=10.2.3"
+        "node": ">=21.6.1",
+        "npm": ">=10.2.4"
     }
 }

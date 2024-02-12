@@ -1,22 +1,22 @@
 import express, { Application, NextFunction, Request, Response } from "express";
 import path from "path";
-
 import compression from "compression";
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import helmet from "helmet";
 import methodOverride from "method-override";
-
-import { BaseRouter, ApiRouter } from "./routes";
-import cookieParser from "cookie-parser";
-import settings from "./settings";
 import morgan from "morgan";
+
+import settings from "./settings";
+import RootRouter from "./routes/root.router";
+import FileStorageRouter from "./routes/file-storage.router";
 
 // create express server
 const app: Application = express();
 
-if (settings.env === "development") {
-    app.use(morgan("development"));
-}
+// if (settings.env === "development") {
+//     app.use(morgan("development"));
+// }
 
 // application settings
 app.set("name", settings.name);
@@ -55,20 +55,19 @@ app.use((request: Request, response: Response, next: NextFunction) => {
     next();
 });
 
-// catch 404 and forward to error handler
-app.use(
-    (error: any, request: Request, response: Response, next: NextFunction) => {
-        error.status = 404;
-        next(error);
-    },
-);
-
 // API Routes
-app.use("/", BaseRouter.default);
-app.use("/api", ApiRouter.default);
-
+app.use("/", RootRouter);
+app.use("/api/fs", FileStorageRouter);
 app.use("*", (request: Request, response: Response) => {
     return response.status(404).json({ message: "page not found." });
+});
+
+// error handler
+app.use((error: any, request: Request, response: Response, next: NextFunction) => {
+    const status_code = error.status_code || 500;
+    const message = error.message;
+    const stack_error = error.stack;
+    response.status(status_code).json({ message, stack_error});
 });
 
 export default app;

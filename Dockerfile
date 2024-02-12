@@ -1,5 +1,5 @@
 # stage 1: compile
-FROM node:18.12-alpine AS builder
+FROM node:21.6-alpine AS builder
 
 # update alpine packages
 RUN apk update
@@ -20,7 +20,7 @@ RUN npm ci
 RUN npm run build
 
 # stage 2
-FROM node:18.12-alpine AS stage
+FROM node:21.6-alpine AS stage
 
 # build arguments
 ARG PORT=4000
