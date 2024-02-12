@@ -1,7 +1,7 @@
 import { expect, describe, it } from "vitest";
 import request from "supertest";
 
-import app from "../app";
+import { app } from "../server";
 
 describe("GET /ping", () => {
     it("successfully ping server", async () => {

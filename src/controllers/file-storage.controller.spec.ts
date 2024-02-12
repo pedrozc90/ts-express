@@ -2,7 +2,7 @@ import fs from "fs";
 import { expect, describe, it } from "vitest";
 import request from "supertest";
 
-import app from "../app";
+import { app } from "../server";
 
 describe("POST /api/fs", () => {
     it("read test file", () => {

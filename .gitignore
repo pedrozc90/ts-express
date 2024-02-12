@@ -1,7 +1,5 @@
 # dependecies
 node_modules
-
-# output
 dist
 
 # environment files
@@ -10,3 +8,6 @@ dist
 .env.production
 .env.dev
 .env.development
+
+# files
+logs
