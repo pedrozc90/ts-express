@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import dotenv from "dotenv";
 
-import { ServerSettings } from "./types";
+import { ServerSettings } from "../types";
 
 const env: string = process.env.NODE_ENV || "development";
 const production: boolean = (env === "production");

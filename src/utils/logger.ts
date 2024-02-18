@@ -11,6 +11,7 @@ const formatter = (info: TransformableInfo) => {
 
 // Define the Winston logger configuration
 const logger = winston.createLogger({
+    silent: (process.env.NODE_ENV === "test"),
     level: "info",
     format: winston.format.combine(
         winston.format.colorize(),
@@ -26,4 +27,4 @@ const logger = winston.createLogger({
     ]
 });
 
-export default logger;
+export default logger;  
