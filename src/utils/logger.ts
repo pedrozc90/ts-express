@@ -4,7 +4,7 @@ import { TransformableInfo } from "logform";
 // { error: 0, warn: 1, info: 2, verbose: 3, debug: 4, silly: 5 }
 const formatter = (info: TransformableInfo) => {
     const { timestamp, level, message, ...args } = info;
-    const ts = timestamp.replace("T", " " ).replace("Z", "");
+    const ts = (timestamp as string).replace("T", " " ).replace("Z", "");
     const metadata = Object.keys(args).length ? JSON.stringify(args, null, '') : ''
     return `${ ts } ${ level } [${ process.pid }] ${ message } ${ metadata }`;
 };
